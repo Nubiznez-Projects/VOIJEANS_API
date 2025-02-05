@@ -11,7 +11,7 @@ exports.GetInfBankDetails = async (req, res) => {
     }
   } 
   
-  // GET a record by ID of INNOFASHION_BANK_DETAILS;;;
+  // GET a record by ID of INNOFASHION_BANK_DETAILS
   exports.GetInfBankDetailsById = async (req, res) => {
     try {
       const pool = await poolPromise;
