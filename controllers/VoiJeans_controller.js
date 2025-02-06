@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
         const token = jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.status(200).json({ message: 'Login successful', token, user_email: user.emailid, user_name: user.user_name, userId: user.user_id });
     } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
+        res.status(500).json({ message: '\u274C Server error', error: err.message });
     }
 };
 
@@ -75,7 +75,7 @@ exports.forgotPassword = async (req, res) => {
 
         res.status(200).json({ message: 'OTP sent to your email' });
     } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
+        res.status(500).json({ message: '\u274C Server error', error: err.message });
     }
 };
 
@@ -108,7 +108,7 @@ exports.resetPassword = async (req, res) => {
             .input('newPassword', sql.VarChar, newPassword)
             .query('UPDATE voi_jeans_tbl SET password = @newPassword WHERE emailid = @email');
 
-        res.status(200).json({ message: 'Password reset successfully' });
+        res.status(200).json({ message: '\u2705 Password reset successfully' });
     } catch (err) {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
@@ -179,7 +179,7 @@ exports.VoicejeansInvoiceList = async (req, res) => {
         res.status(200).json(result.recordset);
     } catch (error) {
         console.error('Error processing invoice list:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }
 
@@ -313,7 +313,7 @@ exports.VoijeansInvoiceListByInvoiceNo = async (req, res) => {
         res.status(200).json(response);
     } catch (error) {
         console.error('Error fetching invoice list:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 };
 
@@ -389,10 +389,10 @@ exports.updateInvoiceDetails = async (req, res) => {
 
         await transaction.commit();
 
-        res.status(200).json({ message: 'Invoice details updated successfully' });
+        res.status(200).json({ message: '\u2705 Invoice details updated successfully' });
     } catch (error) {
         console.error('Error updating invoice details:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }
 
@@ -754,31 +754,26 @@ exports.getInvoicesByAdvanceRequestId = async (req, res) => {
             .input('voi_advance_request_id', sql.Int, voi_advance_request_id)
             .query(query);
 
-        // if (result.recordset.length === 0) return res.status(201).json({ message: 'No invoices found' });
-
-        // const updates = result.recordset
-        //     .filter(record => record.net_amount <= 10000)
-        //     .map(record => record.invoice_no);
-
-        // if (updates.length > 0) {
-        //     const updateVoiJeansQuery = `
-        //     UPDATE voi_jeans_invoice_list
-        //     SET voi_advance_request_id = 6, voi_advance_request = 'Not Eligible'
-        //     WHERE TRIM(invoice_no) IN (${updates.map(invoice => `'${invoice}'`).join(', ')})`;
-
-        //     const updateInnofashionQuery = `
-        //     UPDATE innofashion_invoice_list
-        //     SET voi_advance_request_id = 6, voi_advance_request = 'Not Eligible'
-        //     WHERE TRIM(voi_invoice_no) IN (${updates.map(invoice => `'${invoice}'`).join(', ')})`;
-
-        //     await pool.request().query(updateVoiJeansQuery);
-        //     await pool.request().query(updateInnofashionQuery);
-        // }
-
         res.status(200).json(result.recordset);
     } catch (error) {
-        console.error('Error fetching invoice data:', error);
-        res.status(500).send('Server Error');
+        console.error("⚠️ Error fetching invoice data:", error);
+
+        if (error.code === 'ECONNCLOSED') {
+            console.log("�� Retrying query due to closed connection...");
+            try {
+                const pool = await poolPromise; 
+                const result = await pool.request()
+                    .input('voi_advance_request_id', sql.Int, req.params.voi_advance_request_id)
+                    .query('SELECT * FROM voi_jeans_invoice_list WHERE voi_advance_request_id = @voi_advance_request_id');
+
+                return res.status(200).json(result.recordset);
+            } catch (retryError) {
+                console.error("❌ Retried query failed:", retryError);
+                return res.status(500).json({ message: "Database connection error", error: retryError });
+            }
+        }
+
+        res.status(500).json({ message: "Internal server error", error });
     }
 }
 
@@ -854,7 +849,7 @@ exports.getVoiInvoiceListByInvoiceNo = async (req, res) => {
         res.status(200).json(response);
     } catch (error) {
         console.error('Error fetching invoice details:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 };
 
@@ -925,7 +920,7 @@ exports.getVoiInvoiceListHsnCode = async (req, res) => {
         res.status(200).json(response);
     } catch (error) {
         console.error('Error fetching HSN code data:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }
 
@@ -1069,10 +1064,10 @@ exports.updateRequestStatus = async (req, res) => {
 
         await transaction.commit();
 
-        res.status(200).json({ message: 'Invoice details updated successfully' });
+        res.status(200).json({ message: '\u2705 Invoice details updated successfully' });
     } catch (error) {
         console.error('Error updating invoice details:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }
 
@@ -1161,7 +1156,7 @@ exports.SearchVoiJeansInvoice = async (req, res) => {
 
     } catch (error) {
         console.error('Database error:', error);
-        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+        res.status(500).json({ message: '\u274C Internal Server Error', error: error.message });
     }
 }
 
@@ -1330,7 +1325,7 @@ exports.VoicountAPI = async (req, res) => {
 
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: '\u274C Server error' });
     }
 } 
 
@@ -1365,6 +1360,6 @@ exports.updateVoiJeansIsRead = async (req, res) => {
         res.status(200).send('invoice status updated');
     } catch (error) {
         console.error('Error updating invoice status:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }

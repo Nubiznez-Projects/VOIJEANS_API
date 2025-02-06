@@ -6,7 +6,7 @@ const path = require("path");
 
 
 exports.invoiceMailSend = async (req, res) => {
-  const invoiceNo = req.params.invoiceNo;
+  const invoiceNo = req.params.invoice_no;
 
   try {
     const pool = await poolPromise;
@@ -21,6 +21,8 @@ exports.invoiceMailSend = async (req, res) => {
     if (result.recordset.length === 0) {
       return res.status(404).send("Invoice not found");
     }
+
+    //console.log(invoices);
 
     const invoices = result.recordset;
 
@@ -86,7 +88,8 @@ exports.invoiceMailSend = async (req, res) => {
       return new Date(date).toLocaleDateString("en-GB", options);
     }
 
-    const logoPath = path.join(__dirname, " ", "public", "innologo.png");
+    const logoPath = path.join(__dirname, "..", "public", "innologo.png");
+    //const logoPath = "E:\\voi_jeans_api\\public\\innologo.png";
     const logoBase64 = fs.readFileSync(logoPath, { encoding: "base64" });
     const logoDataUri = `data:image/png;base64,${logoBase64}`;
 
@@ -911,15 +914,20 @@ exports.invoiceMailSend = async (req, res) => {
     await browser.close();
 
     const transporter = nodemailer.createTransport({
-      service: "smtp.office365.com",  
+      host: "smtp.office365.com", 
+      port: 587, 
+      secure: false, 
       auth: {
-        user: "info@thebusstand.com",
-        pass: "bxdmbylxzlgcnbcn",
+        user: "no-reply@thebusstand.com",
+        pass: "bdqbqlgqgcnnrxrr",
       },
-    });
+      tls: {
+        rejectUnauthorized: false, 
+      },
+    });    
 
     const mailOptions = {
-      from: "info@thebusstand.com",
+      from: "no-reply@thebusstand.com",
       to: ["anukrishna.nubiznez@gmail.com", "nbzashika@gmail.com"],  
       subject: `Invoice ${invoiceNo}`,
       text: "Please find attached the invoice PDF.",
@@ -941,11 +949,11 @@ exports.invoiceMailSend = async (req, res) => {
 
       fs.unlinkSync(pdfPath);
 
-      res.status(200).send("Invoice sent via email successfully.");
+      res.status(200).send("\u2705 Invoice sent via email successfully.");
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("\u274C Internal Server Error");
   }
 };
 
@@ -954,8 +962,10 @@ exports.outletRemark = async (req, res) => {
         const { in_invoice_no, item_code, comments } = req.body;
         const image = req.file ? req.file.path : null;
 
+        console.log(req.body);
+
         if (!in_invoice_no || !item_code || !comments) {
-            return res.status(400).json({ success: false, message: 'Fields inno_invoice_no, item_Code, and Comments are required.' });
+            return res.status(400).json({ success: false, message: 'Fields in_invoice_no, item_Code, and Comments are required.' });
         }
 
         let pool;
@@ -968,13 +978,12 @@ exports.outletRemark = async (req, res) => {
                 .input('comments', sql.Text, comments)
                 .input('image', sql.VarChar, image || null)
                 .query(`
-                    INSERT INTO OutletRemarks (in_invoice_no, item_code, comments, image)
-                    VALUES (@inno_invoice_no, @item_Code, @Comments, COALESCE(@image, ''))
-                `);
+                    INSERT INTO innofashion_outlet_remarks_tbl (in_invoice_no, item_code, comments, image)
+                    VALUES (@in_invoice_no, @item_code, @comments, COALESCE(@image, '')) `);
 
             res.status(201).json({
                 success: true,
-                message: 'Remark added successfully'
+                message: '\u2705 Remark added successfully'
             });
         } catch (dbErr) {
             console.error('Database error:', dbErr);

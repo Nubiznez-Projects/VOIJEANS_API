@@ -14,6 +14,7 @@ dotenv.config();
 const app = express();
 
 app.use('/public', express.static('public'));
+app.use('/outlet_files', express.static('outlet_files'));
 
 // Middleware..
 app.use(express.json());

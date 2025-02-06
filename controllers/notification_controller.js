@@ -33,7 +33,7 @@ exports.getNotifications = async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching notifications:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 };
 
@@ -70,7 +70,7 @@ exports.updateNotificationStatus = async (req, res) => {
         res.status(200).send('Notification status updated');
     } catch (error) {
         console.error('Error updating notification status:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }
 
@@ -96,8 +96,7 @@ exports.getInnofashionNotifications = async (req, res) => {
         const countQuery = `
             SELECT COUNT(*) AS unread_count 
             FROM innofashion_notifications 
-            WHERE is_read = 0;
-        `;
+            WHERE is_read = 0; `;
 
         const countResult = await pool.request().query(countQuery);
 
@@ -107,7 +106,7 @@ exports.getInnofashionNotifications = async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching notifications:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 };
 
@@ -142,7 +141,7 @@ exports.updateInnofashionNotificationStatus = async (req, res) => {
         res.status(200).send('Notification status updated');
     } catch (error) {
         console.error('Error updating notification status:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }
 

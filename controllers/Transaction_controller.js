@@ -122,7 +122,7 @@ exports.updateInflowTransaction = async (req, res) => {
 
         await calculateDailyInterest();
 
-        res.status(200).send({ message: 'Transaction and invoice details updated successfully.' });
+        res.status(200).send({ message: '\u2705 Transaction and invoice details updated successfully.' });
     } catch (error) {
         console.error('Error updating transaction and invoice:', error);
 
@@ -216,7 +216,7 @@ try {
 
         await transaction.commit();
 
-        res.status(200).send({ message: 'Transaction and invoice details updated successfully.' });
+        res.status(200).send({ message: '\u2705 Transaction and invoice details updated successfully.' });
     
 
 } catch (error) {

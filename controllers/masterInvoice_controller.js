@@ -17,6 +17,6 @@ exports.GetMasterInvoice = async (req, res) => {
 
     } catch (error) {
         console.error('Error fetching invoice data:', error);
-        res.status(500).send('Server Error'); 
+        res.status(500).send('\u274C Server Error'); 
     }
 }

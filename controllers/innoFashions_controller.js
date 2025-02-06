@@ -50,7 +50,7 @@ exports.login = async (req, res) => {
         const token = jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.status(200).json({ message: 'Login successful', token, user_email: user.emailid, user_name: user.user_name, userId: user.user_id });
     } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
+        res.status(500).json({ message: '\u274C Server error', error: err.message });
     }
 };
 
@@ -76,7 +76,7 @@ exports.forgotPassword = async (req, res) => {
 
         res.status(200).json({ message: 'OTP sent to your email' });
     } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
+        res.status(500).json({ message: '\u274C Server error', error: err.message });
     }
 };
 
@@ -111,7 +111,7 @@ exports.resetPassword = async (req, res) => {
 
         res.status(200).json({ message: 'Password reset successfully' });
     } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
+        res.status(500).json({ message: '\u274C Server error', error: err.message });
     }
 };
 
@@ -205,7 +205,7 @@ exports.InnofashionInvoiceList = async (req, res) => {
         res.status(200).json(result.recordset);
     } catch (error) {
         console.error('Error processing invoice list:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }
 
@@ -708,7 +708,7 @@ exports.getInvoicesByAdvanceRequestId = async (req, res) => {
         res.status(200).json(result.recordset);
     } catch (error) {
         console.error('Error fetching invoice data:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }
 
@@ -793,7 +793,7 @@ exports.SearchInnofashionInvoice = async (req, res) => {
 
     } catch (error) {
         console.error('Database error:', error);
-        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+        res.status(500).json({ message: '\u274C Internal Server Error', error: error.message });
     }
 }
 
@@ -817,7 +817,7 @@ exports.InnofashioncountAPI = async (req, res) => {
   
     } catch (err) {
       console.error(err.message);
-      res.status(500).json({ error: 'Server error' });
+      res.status(500).json({ error: '\u274C Server error' });
     }
   };
 
@@ -930,7 +930,7 @@ exports.InnofashioncountAPI = async (req, res) => {
         res.status(200).json(result.recordset);
     } catch (error) {
         console.error('Error fetching invoice data:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }
 
@@ -1019,7 +1019,7 @@ exports.GetDebitNote = async (req, res) => {
         res.status(200).json(result.recordset);
     } catch (error) {
         console.error('Error fetching invoice data:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }
 
@@ -1054,6 +1054,6 @@ exports.updateInnoFashionIsRead = async (req, res) => {
         res.status(200).send('invoice status updated');
     } catch (error) {
         console.error('Error updating invoice status:', error);
-        res.status(500).send('Server Error');
+        res.status(500).send('\u274C Server Error');
     }
 }

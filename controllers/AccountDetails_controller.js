@@ -5,7 +5,7 @@ exports.GetInfBankDetails = async (req, res) => {
     try {
       const pool = await poolPromise;
       const result = await pool.request().query('SELECT * FROM innofashion_bank_details');
-      res.status(200).json(result.recordset);
+      res.status(200).json(result.recordset);    
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -42,7 +42,7 @@ exports.GetInfBankDetails = async (req, res) => {
           `INSERT INTO innofashion_bank_details (acc_holder_name, acc_no, bank_name, ifsc_code, branch_name, acc_type) 
                  VALUES (@acc_holder_name, @acc_no, @bank_name, @ifsc_code, @branch_name, @acc_type)`
         );
-      const result = res.status(201).send('Record created successfully');
+      const result = res.status(201).send('\u2705 Record created successfully');
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -65,10 +65,8 @@ exports.GetInfBankDetails = async (req, res) => {
         .query(
           `UPDATE innofashion_bank_details 
            SET acc_holder_name = @acc_holder_name, acc_no = @acc_no, bank_name = @bank_name, 
-               ifsc_code = @ifsc_code, branch_name = @branch_name, acc_type = @acc_type 
-           WHERE acc_id = @acc_id`
-        );
-      res.status(200).send('Record updated successfully');
+               ifsc_code = @ifsc_code, branch_name = @branch_name, acc_type = @acc_type WHERE acc_id = @acc_id` );
+      res.status(200).send('\u2705 Record updated successfully');
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -82,7 +80,7 @@ exports.GetInfBankDetails = async (req, res) => {
         .request()
         .input('acc_id', sql.VarChar, req.params.acc_id)
         .query('DELETE FROM innofashion_bank_details WHERE acc_id = @acc_id');
-      res.status(200).send('Record deleted successfully');
+      res.status(200).send('\u2705 Record deleted successfully');
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -130,7 +128,7 @@ exports.GetVoiBankDetails = async (req, res) => {
           `INSERT INTO voi_jeans_bank_details (acc_holder_name, acc_no, bank_name, ifsc_code, branch_name, [acc_type]) 
                  VALUES (@acc_holder_name, @acc_no, @bank_name, @ifsc_code, @branch_name, @acc_type)`
         );
-      res.status(201).send('Record created successfully');
+      res.status(201).send('\u2705 Record created successfully');
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -156,7 +154,7 @@ exports.GetVoiBankDetails = async (req, res) => {
                ifsc_code = @ifsc_code, branch_name = @branch_name, acc_type = @acc_type 
            WHERE acc_id = @acc_id`
         );
-      res.status(200).send('Record updated successfully');
+      res.status(200).send('\u2705 Record updated successfully');
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -170,7 +168,7 @@ exports.GetVoiBankDetails = async (req, res) => {
         .request()
         .input('acc_id', sql.VarChar, req.params.acc_id)
         .query('DELETE FROM voi_jeans_bank_details WHERE acc_id = @acc_id');
-      res.status(200).send('Record deleted successfully');
+      res.status(200).send('\u2705 Record deleted successfully');
     } catch (error) {
       res.status(500).send(error.message);
     }
