@@ -31,27 +31,27 @@ const sendOTP = async (email, otp) => {
 exports.login = async (req, res) => {
     const { email, password } = req.body;
 
-    if (!email || !password) return res.status(400).json({ message: 'Email and Password are required' });
+    if (!email || !password) return res.status(400).json({ message: 'Email and Password are required' })
 
     try {
         const pool = await poolPromise;
         const result = await pool
             .request()
             .input('email', sql.VarChar, email)
-            .query('SELECT * FROM voi_jeans_tbl WHERE emailid = @email');
+            .query('SELECT * FROM voi_jeans_tbl WHERE emailid = @email')
 
-        if (result.recordset.length === 0) return res.status(404).json({ message: 'User not found' });
+        if (result.recordset.length === 0) return res.status(404).json({ message: 'User not found' })
 
-        const user = result.recordset[0];
+        const user = result.recordset[0]
 
-        if (password !== user.password) return res.status(401).json({ message: 'Invalid credentials' });
+        if (password !== user.password) return res.status(401).json({ message: 'Invalid credentials' })
 
-        const token = jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.status(200).json({ message: 'Login successful', token, user_email: user.emailid, user_name: user.user_name, userId: user.user_id });
+        const token = jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: '1h' })
+        res.status(200).json({ message: 'Login successful', token, user_email: user.emailid, user_name: user.user_name, userId: user.user_id })
     } catch (err) {
-        res.status(500).json({ message: '\u274C Server error', error: err.message });
+        res.status(500).json({ message: '\u274C Server error', error: err.message })
     }
-};
+}
 
 // Forgot Password Function (sending OTP)
 exports.forgotPassword = async (req, res) => {
@@ -66,7 +66,7 @@ exports.forgotPassword = async (req, res) => {
             .input('email', sql.VarChar, email)
             .query('SELECT * FROM voi_jeans_tbl WHERE emailid = @email');
 
-        if (result.recordset.length === 0) return res.status(201).json({ message: 'User not found' });
+        if (result.recordset.length === 0) return res.status(201).json({ message: 'User not found' })
 
         const otp = Math.floor(100000 + Math.random() * 900000); 
         await sendOTP(email, otp);
@@ -170,8 +170,7 @@ exports.VoicejeansInvoiceList = async (req, res) => {
                 UPDATE voi_jeans_invoice_list
                 SET voi_advance_request_id = 6, 
                     voi_advance_request = 'Not Eligible'
-                WHERE TRIM(invoice_no) IN (${updates.map(invoice => `'${invoice}'`).join(', ')});
-            `;
+                WHERE TRIM(invoice_no) IN (${updates.map(invoice => `'${invoice}'`).join(', ')}); `;
 
             await pool.request().query(updateQuery);
         }

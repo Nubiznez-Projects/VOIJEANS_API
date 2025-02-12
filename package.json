@@ -22,7 +22,8 @@
     "nodemailer": "^6.9.16",
     "nodemon": "^3.1.9",
     "otp-generator": "^4.0.1",
-    "playwright": "^1.50.1"
+    "playwright": "^1.50.1",
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.50.1"

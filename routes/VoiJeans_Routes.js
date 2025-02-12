@@ -1,10 +1,11 @@
 const express = require('express');
 const voiRoutes = express.Router();
 const { login, forgotPassword, resetPassword, VoicejeansInvoiceList, VoijeansInvoiceListByInvoiceNo, updateInvoiceDetails, getInvoicesByAdvanceRequestId, getVoiInvoiceListByInvoiceNo, getVoiInvoiceListHsnCode, updateRequestStatus, debitNote, SearchVoiJeansInvoice, VoicountAPI, updateVoiJeansIsRead,  } = require('../controllers/VoiJeans_controller');
+const { authenticateToken } = require('../middileware/Auth');
 
 voiRoutes.post('/login', login); 
-voiRoutes.put('/forgot-password', forgotPassword); 
-voiRoutes.put('/reset-password', resetPassword); 
+voiRoutes.put('/forgot-password', authenticateToken, forgotPassword); 
+voiRoutes.put('/reset-password', authenticateToken, resetPassword); 
 voiRoutes.get('/voijeans-invoice-list', VoicejeansInvoiceList); 
 voiRoutes.get('/voijeans-invoice-list/:invoice_no(*)', VoijeansInvoiceListByInvoiceNo); 
 voiRoutes.put('/voijeans-request/:invoice_no(*)', updateRequestStatus); 
