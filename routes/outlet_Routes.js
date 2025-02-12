@@ -1,6 +1,7 @@
 const express = require('express')
 const multer = require('multer')
-const { invoiceMailSend, outletRemark } = require('../controllers/outlet_controller')
+const { invoiceMailSend, outletRemark } = require('../controllers/outlet_controller');
+const { authenticateToken } = require('../middileware/Auth');
 
 const outletRote = express.Router()
 
@@ -14,8 +15,8 @@ const outlet_storage = multer.diskStorage({
 });
 const outlet_upload = multer({ storage: outlet_storage });
 
-outletRote.get('/invoice/pdf/:invoice_no(*)', invoiceMailSend)
-outletRote.post('/outlet_remarks', outlet_upload.single('image'), outletRemark)
+outletRote.get('/invoice/pdf/:invoice_no(*)', authenticateToken, invoiceMailSend)
+outletRote.post('/outlet_remarks', outlet_upload.single('image'), authenticateToken, outletRemark)
 
 
 module.exports = { outletRote }
