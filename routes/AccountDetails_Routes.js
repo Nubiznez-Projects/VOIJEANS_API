@@ -11,7 +11,7 @@ bankRoute.put('/voi-jeans-bank-details/:acc_id', authenticateToken, PutVoiBankDe
 bankRoute.post('/voi-jeans-bank-details', authenticateToken, PostVoiBankDetails)
 bankRoute.delete('/voi-jeans-bank-details/:acc_id', authenticateToken, DeleteVoiBankDetails)
 
-//INNOFASHION
+//INNOFASHION......
 bankRoute.get('/innofashion-bank-details', authenticateToken, GetInfBankDetails)
 bankRoute.get('/innofashion-bank-details/:acc_id', authenticateToken, GetInfBankDetailsById)
 bankRoute.post('/innofashion-bank-details', authenticateToken, PostInfBankDetails)
