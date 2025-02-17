@@ -9,6 +9,7 @@ const { TransactionRoutes } = require('./routes/Transaction_Routes');
 const { notiRoute } = require('./routes/notification_Routes');
 const { bankRoute } = require('./routes/AccountDetails_Routes');
 const { outletRote } = require('./routes/outlet_Routes');
+const { salesRoter } = require('./routes/SalesInvoice_routes');
 
 dotenv.config();
 const app = express();
@@ -28,6 +29,7 @@ app.use('/api', TransactionRoutes);
 app.use('/api', notiRoute);
 app.use('/api', bankRoute);
 app.use('/api', outletRote);
+app.use('/api', salesRoter);
 
 
 // Schedule the job to run every day at midnight

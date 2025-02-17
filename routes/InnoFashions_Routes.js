@@ -1,10 +1,10 @@
 const express = require('express');
 const innoFashionRoutes = express.Router();
-const { login, forgotPassword, resetPassword, InnofashionInvoiceList, getInvoicesByAdvanceRequestId, SearchInnofashionInvoice, InnofashioncountAPI, CountCreditPeriods, getInvoicesByPaymentId, GetDebitNote, updateInnoFashionIsRead } = require('../controllers/innoFashions_controller');
+const { forgotPassword, resetPassword, InnofashionInvoiceList, getInvoicesByAdvanceRequestId, SearchInnofashionInvoice, InnofashioncountAPI, CountCreditPeriods, getInvoicesByPaymentId, GetDebitNote, updateInnoFashionIsRead, Innofashionlogin } = require('../controllers/innoFashions_controller');
 const { authenticateToken } = require('../middileware/Auth');
 
 
-innoFashionRoutes.post('/innoFashion-login', login); 
+innoFashionRoutes.post('/innoFashion-login', Innofashionlogin); 
 // innoFashionRoutes.put('/innoFashion-forgot-password', forgotPassword); 
 // innoFashionRoutes.put('/innoFashion-reset-password', resetPassword); 
 // innoFashionRoutes.get('/innofashion-invoice-list', InnofashionInvoiceList); 

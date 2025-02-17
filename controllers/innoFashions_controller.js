@@ -29,7 +29,7 @@ const sendOTP = async (email, otp) => {
 };
 
 // Login Function
-exports.login = async (req, res) => {
+exports.Innofashionlogin = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) return res.status(400).json({ message: 'Email and Password are required' });
@@ -66,7 +66,7 @@ exports.forgotPassword = async (req, res) => {
             .request()
             .input('email', sql.VarChar, email)
             .query('SELECT * FROM inno_fashion_tbl WHERE emailid = @email');
-
+            
         if (result.recordset.length === 0) return res.status(201).json({ message: 'User not found' });
 
         const otp = Math.floor(100000 + Math.random() * 900000); 
